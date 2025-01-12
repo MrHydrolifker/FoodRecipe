@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<head>
+
+    <head>
+        <!-- Basic meta tags -->
+        <title>Recipe Generator | Create Delicious Recipes Easily</title>
+        <meta name="description" content="Discover and create delicious recipes with our powerful Recipe Generator. Explore custom recipes tailored to your taste.">
+        <meta name="keywords" content="Recipe, Recipe Generator, Generator,Food, Cooking, Custom Recipes, AI Recipe, AI cook,AI recipe generator,Ai based recipe">
+        <meta name="author" content="Ayush Prasad">
+      
+        <!-- Open Graph meta tags (for social sharing) -->
+        <meta property="og:title" content="Recipe Generator | Create Delicious Recipes Easily">
+        <meta property="og:description" content="Discover and create delicious recipes with our powerful Recipe Generator.">
+        <meta property="og:image" content="plate1.jpg">
+        <meta property="og:url" content="https://mini-project-smoky-zeta.vercel.app/">
+        <meta property="og:type" content="website">
+      
+        <!-- Twitter meta tags -->
+        <meta name="twitter:title" content="Recipe Generator | Create Delicious Recipes Easily">
+        <meta name="twitter:description" content="Discover and create delicious recipes with our powerful Recipe Generator.">
+        <meta name="twitter:image" content="URL-to-your-featured-image">
+        <meta name="twitter:card" content="summary_large_image">
+      </head>
+      
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Generator</title>
+    <style>
+   body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Chat container */
+.chat-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 35%;
+    max-width: 70%;
+    max-height: 70%;
+    box-sizing: border-box;
+    margin-right: 50px;
+    overflow-y: auto;
+}
+
+/* Header styles */
+h2, h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* Input and button styling */
+select, input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Message container */
+.messages {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.message.user {
+    background-color: #e1f5fe;
+}
+
+.message.bot {
+    background-color: #e8f5e9;
+}
+
+/* Dropdown container with proper spacing */
+.dropdown-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.dropdown-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Background container for rotating images */
+.background-container {
+    position: relative;
+    width: 70%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 40px;
+    box-sizing: border-box;
+}
+
+.background-container img {
+    position: absolute;
+    width: 40%;
+    max-width: 500px;
+    max-height: 80%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.background-container img.active {
+    opacity: 1;
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: auto;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .chat-container, .background-container {
+        width: 70%;
+        margin: 10px auto;
+        max-height: 80vh;
+    }
+
+    .background-container img {
+        width: 70%;
+    }
+}
+
+@media (max-width: 480px) {
+    select, input, button {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    h2, h3 {
+        font-size: 18px;
+    }
+
+    .messages {
+        max-height: 200px;
+    }
+
+    .background-container img {
+        width: 80%;
+    }
+
+    .chat-container {
+        width: 70%;
+        padding: 15px;
+    }
+
+    .dropdown-container {
+        margin-bottom: 15px;
+    }
+}
+
+.centered-bg-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background-image: url('health food life breakfast h5_1084265.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Container for the top center image */
+.top-center-image {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.top-center-image img {
+    width: 70px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+    position: relative;
+}
+
+.top-center-image img:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 215, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.top-center-image::after {
+    content: "AI Recipe Generator";
+    position: absolute;
+    margin-top: 10%;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    color: rgba(0, 0, 0, 0);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 300;
+    white-space: nowrap;
+}
+
+.top-center-image:hover::after {
+    color: rgba(0, 0, 0, 0.9);
+    transform: translateX(-50%) scale(1.1);
+}
+
+/* Loading screen styles */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+}
+
+.loader-animation {
+    text-align: center;
+}
+
+.loading-bar {
+    width: 80%;
+    max-width: 400px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px auto;
+    position: relative;
+}
+
+    </style>
+</head>
+<body>
+
+    <body>
+    
+    
+        <!-- Main content -->
+        <div id="main-content" style="display: none;">
+            <!-- Your website content goes here -->
+            
+            <!-- Add other elements -->
+        </div>
+    </body>
+    
+
+
+
+
+
+    <div class="background-container">
+        <img src="plate1.jpg" alt="Plate 1">
+        <img src="plate2.jpg" alt="Plate 2">
+        <img src="plate3.jpg" alt="Plate 3">
+        <img src="plate4.jpg" alt="Plate 4">
+        <img src="plate5.jpg" alt="Plate 5">
+    </div>
+
+    <div class="top-center-image">
+        <img src="download.png" alt="Top Center Image" />
+    </div>
+    
+
+
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+
+        <!-- Dropdown Container -->
+        <div class="dropdown-container">
+            <select id="cuisineDropdown">
+                <option value="">Select Cuisine</option>
+                <option value="Indian">Indian</option>
+                <option value="Italian">Italian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Mexican">Mexican</option>
+            </select>
+
+            <select id="foodDropdown" disabled>
+                <option value="">Select Food Name</option>
+            </select>
+
+            <select id="ingredientDropdown" disabled>
+                <option value="">Select Ingredient</option>
+            </select>
+        </div>
+
+
+
+
+        <input type="text" id="userInput" placeholder="Or enter a dish or ingredient..." />
+        <button id="sendButton">Generate Recipe</button>
+        <button id="refreshButton">Refresh</button>
+    </div>
+
+    <div class="centered-bg-image"></div>
+
+
+    
+       <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+        const API_KEY = "AIzaSyDbYj6DcSJ7Pp3jIG_Sj1CV_FwVhssvBvY";
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const cuisineData = {
+            Indian: ['Biryani', 'Dal Tadka', 'Butter Chicken'],
+            Italian: ['Pizza', 'Pasta', 'Lasagna'],
+            Chinese: ['Fried Rice', 'Chow Mein', 'Manchurian'],
+            Mexican: ['Tacos', 'Burritos', 'Quesadillas']
+        };
+
+        const ingredientData = {
+            'Biryani': ['Rice', 'Chicken', 'Spices', 'Yogurt'],
+            'Pizza': ['Flour', 'Cheese', 'Tomato', 'Olives'],
+            'Fried Rice': ['Rice', 'Vegetables', 'Soy Sauce', 'Egg'],
+            'Tacos': ['Tortilla', 'Chicken', 'Lettuce', 'Cheese']
+        };
+
+        function updateFoodDropdown(cuisine) {
+            const foodDropdown = document.getElementById('foodDropdown');
+            const foodOptions = cuisineData[cuisine] || [];
+            foodDropdown.innerHTML = '<option value="">Select Food Name</option>';
+            foodOptions.forEach(food => {
+                const option = document.createElement('option');
+                option.value = food;
+                option.textContent = food;
+                foodDropdown.appendChild(option);
+            });
+            foodDropdown.disabled = foodOptions.length === 0;
+            document.getElementById('ingredientDropdown').disabled = true;
+            document.getElementById('ingredientDropdown').innerHTML = '<option value="">Select Ingredient</option>';
+        }
+
+        function updateIngredientDropdown(food) {
+            const ingredientDropdown = document.getElementById('ingredientDropdown');
+            const ingredients = ingredientData[food] || [];
+            ingredientDropdown.innerHTML = '<option value="">Select Ingredient</option>';
+            ingredients.forEach(ingredient => {
+                const option = document.createElement('option');
+                option.value = ingredient;
+                option.textContent = ingredient;
+                ingredientDropdown.appendChild(option);
+            });
+            ingredientDropdown.disabled = ingredients.length === 0;
+        }
+
+        document.getElementById('cuisineDropdown').addEventListener('change', (event) => {
+            updateFoodDropdown(event.target.value);
+        });
+
+        document.getElementById('foodDropdown').addEventListener('change', (event) => {
+            updateIngredientDropdown(event.target.value);
+        });
+
+        document.getElementById('sendButton').addEventListener('click', async () => {
+            const userInput = document.getElementById('userInput').value.trim();
+            const selectedCuisine = document.getElementById('cuisineDropdown').value;
+            const selectedFood = document.getElementById('foodDropdown').value;
+            const selectedIngredient = document.getElementById('ingredientDropdown').value;
+
+            if (!userInput && !selectedFood && !selectedIngredient) return;
+
+            const messagesDiv = document.getElementById('messages');
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user';
+            userMessageDiv.textContent = userInput || `${selectedCuisine} - ${selectedFood} with ${selectedIngredient}`;
+            messagesDiv.appendChild(userMessageDiv);
+
+            document.getElementById('userInput').value = '';
+            document.getElementById('sendButton').disabled = true;
+
+            try {
+                const prompt = `Generate a recipe for ${userInput || `${selectedCuisine} ${selectedFood} with ${selectedIngredient}`}`;
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const text = await response.text();
+
+                // Format the recipe text into steps
+                const formattedRecipe = formatRecipe(text);
+
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'message bot';
+                botMessageDiv.innerHTML = formattedRecipe;
+                messagesDiv.appendChild(botMessageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            } catch (error) {
+                console.error('Error generating recipe:', error);
+                                // Handle error gracefully if recipe generation fails
+                                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'message bot';
+                botMessageDiv.textContent = 'Sorry, I encountered an issue while generating the recipe. Please try again.';
+                messagesDiv.appendChild(botMessageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            } finally {
+                document.getElementById('sendButton').disabled = false;
+            }
+        });
+
+        // Format the recipe response into steps
+        function formatRecipe(recipeText) {
+            const lines = recipeText.split('\n');
+            let formattedRecipe = '<div class="recipe"><h3>Recipe Steps:</h3><div class="steps">';
+            lines.forEach(line => {
+                if (line.trim()) {
+                    formattedRecipe += `<div class="step">${line.trim()}</div>`;
+                }
+            });
+            formattedRecipe += '</div></div>';
+            return formattedRecipe;
+        }
+        const images = document.querySelectorAll('.background-container img');
+        let currentIndex = 0;
+
+        function showNextImage() {
+            images.forEach(img => img.classList.remove('active'));
+            images[currentIndex].classList.add('active');
+            currentIndex = (currentIndex + 1) % images.length;
+        } document.body.classList.add('loading'); // Prevent scrolling during loading
+
+
+        setInterval(showNextImage, 4000);
+        showNextImage();
+
+
+
+
+
+       
+
+
+
+
+    </script>
+</body>
+</html>
