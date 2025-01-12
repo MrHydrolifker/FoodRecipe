@@ -498,6 +498,11 @@ button:hover {
         showNextImage();
 
 
+// Clear chat container logic
+document.getElementById('refreshButton').addEventListener('click', () => {
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML = ''; // Clear all content inside the messages container
+});
 
 
 
